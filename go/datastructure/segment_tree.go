@@ -142,3 +142,104 @@ func (st *SegmentTree) Query(start, end, l, r, index int) int {
 // QueryRange: O(log n)
 // Update: O(log n)
 // Query: O(log n)
+
+type SegmentTreeMin struct {
+	tree []int
+}
+
+// NewSegmentTreeMin creates a new segment tree.
+func NewSegmentTreeMin(n int) *SegmentTreeMin {
+	segmentTree := &SegmentTreeMin{
+		tree: make([]int, 4*n),
+	}
+
+	return segmentTree
+}
+
+// BuildTreeMin builds the segment tree.
+func (st *SegmentTreeMin) BuildTreeMin(arr []int, start, end, index int) {
+	if start == end {
+		st.tree[index] = arr[start]
+		return
+	}
+
+	mid := (start + end) / 2
+	st.BuildTreeMin(arr, start, mid, 2*index+1)
+	st.BuildTreeMin(arr, mid+1, end, 2*index+2)
+	st.tree[index] = min(st.tree[2*index+1], st.tree[2*index+2])
+}
+
+// UpdateRangeMin updates the range.
+func (st *SegmentTreeMin) UpdateRangeMin(start, end, l, r, index, value int) {
+	if start > r || end < l {
+		return
+	}
+
+	if start == end {
+		st.tree[index] += value
+		return
+	}
+
+	mid := (start + end) / 2
+	st.UpdateRangeMin(start, mid, l, r, 2*index+1, value)
+	st.UpdateRangeMin(mid+1, end, l, r, 2*index+2, value)
+	st.tree[index] = min(st.tree[2*index+1], st.tree[2*index+2])
+}
+
+// QueryRangeMin queries the range.
+func (st *SegmentTreeMin) QueryRangeMin(start, end, l, r, index int) int {
+	if start > r || end < l {
+		return 1<<31 - 1
+	}
+
+	if start >= l && end <= r {
+		return st.tree[index]
+	}
+
+	mid := (start + end) / 2
+	left := st.QueryRangeMin(start, mid, l, r, 2*index+1)
+	right := st.QueryRangeMin(mid+1, end, l, r, 2*index+2)
+
+	return min(left, right)
+}
+
+// UpdateMin updates the value.
+func (st *SegmentTreeMin) UpdateMin(start, end, index, value, pos int) {
+	if start == end {
+		st.tree[index] += value
+		return
+	}
+
+	mid := (start + end) / 2
+	if pos <= mid {
+		st.UpdateMin(start, mid, 2*index+1, value, pos)
+	} else {
+		st.UpdateMin(mid+1, end, 2*index+2, value, pos)
+	}
+
+	st.tree[index] = min(st.tree[2*index+1], st.tree[2*index+2])
+}
+
+// QueryMin queries the value.
+func (st *SegmentTreeMin) QueryMin(start, end, l, r, index int) int {
+	if l <= start && r >= end {
+		return st.tree[index]
+	}
+
+	if end < l || start > r {
+		return 1<<31 - 1
+	}
+
+	mid := (start + end) / 2
+	left := st.QueryMin(start, mid, l, r, 2*index+1)
+	right := st.QueryMin(mid+1, end, l, r, 2*index+2)
+
+	return min(left, right)
+}
+
+// Time complexity
+// BuildTreeMin: O(n)
+// UpdateRangeMin: O(log n)
+// QueryRangeMin: O(log n)
+// UpdateMin: O(log n)
+// QueryMin: O(log n)
