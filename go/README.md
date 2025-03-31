@@ -23,6 +23,8 @@ Collection of DS & Algo implementation in Go
 | Bellman Ford | [Bellman Ford](./graph/bellman_ford.go) | [gfg](https://www.geeksforgeeks.org/bellman-ford-algorithm-dp-23/)
 | Floyd Warshall | [Floyd Warshall](./graph/floyd_warshall.go) | [gfg](https://www.geeksforgeeks.org/floyd-warshall-algorithm-dp-16/)
 | LCA in BST | [LCA](./datastructure/lca.go) |  |
+| Kth Smallest in BST | [Inorder](./algos/kthSmallest.go) |  |
+| Is Valid BST | [Is Valid](./algos/isValidBST.go)
 
 
 | Algos/Techniques | Code | Links |
@@ -38,4 +40,4 @@ Collection of DS & Algo implementation in Go
 | Rabin Karp | [Rabin Karp](./algos/rabin-karp.go) |  |
 | KMP | [KMP](./algos/kmp.go) |  |
 | Manacher's | [Manacher's](./algos/manachers_algo.go) |  |
-| LCS | [LCS](./algos/lcs.go)
+| LCS | [LCS](./algos/lcs.go) |  |
